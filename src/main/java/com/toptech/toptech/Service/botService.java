@@ -69,17 +69,23 @@ public class botService extends TelegramLongPollingBot {
 
         sendText(chatId, response);
     }
-
     private void sendText(String chatId, String text) {
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText(text);
-        message.setParseMode("Markdown");
 
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
+        int maxLength = 4000;
+
+        for (int i = 0; i < text.length(); i += maxLength) {
+
+            String part = text.substring(i, Math.min(text.length(), i + maxLength));
+
+            SendMessage message = new SendMessage();
+            message.setChatId(chatId);
+            message.setText(part);
+
+            try {
+                execute(message);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

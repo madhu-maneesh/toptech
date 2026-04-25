@@ -23,20 +23,25 @@ public class NewsService {
 
         int count = 0;
         for (int i = 0; i < ids.length && count < 10; i++) {
-            NewsModel item = restTemplate.getForObject(ITEM_URL, NewsModel.class, ids[i]);
+            try {
+                NewsModel item = restTemplate.getForObject(ITEM_URL, NewsModel.class, ids[i]);
 
-            if (item == null || item.title == null) continue;
+                if (item == null || item.title == null) continue;
 
-            sb.append(count + 1).append(". *").append(item.title).append("*\n");
+                sb.append(count + 1).append(". ").append(item.title).append("\n");
 
-            if (item.url != null && !item.url.isEmpty()) {
-                sb.append("🔗 ").append(item.url).append("\n");
-            } else {
-                sb.append("🔗 https://news.ycombinator.com/item?id=").append(ids[i]).append("\n");
+                if (item.url != null && !item.url.isEmpty()) {
+                    sb.append(item.url).append("\n");
+                } else {
+                    sb.append("https://news.ycombinator.com/item?id=").append(ids[i]).append("\n");
+                }
+
+                sb.append("Score: ").append(item.score).append("\n\n");
+
+                count++;
+            } catch (Exception e) {
+                System.out.println("Error fetching item: " + ids[i]);
             }
-
-            sb.append("⬆️ Score: ").append(item.score).append("\n\n");
-            count++;
         }
 
         return sb.toString();
