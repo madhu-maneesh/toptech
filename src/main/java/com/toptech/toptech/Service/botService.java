@@ -25,6 +25,11 @@ public class botService extends TelegramLongPollingBot {
     }
 
     @Override
+    public void clearWebhook() {
+
+    }
+
+    @Override
     public String getBotUsername() {
         return botUsername;
     }
