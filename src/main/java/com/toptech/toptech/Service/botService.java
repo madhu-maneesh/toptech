@@ -21,7 +21,7 @@ public class botService extends TelegramLongPollingBot {
         super(token);
         this.botUsername = username;
         this.newsService = newsService;
-//        System.out.println("Bot started: " + botUsername);
+        System.out.println("Bot started: " + botUsername);
     }
 
     @Override
